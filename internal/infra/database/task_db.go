@@ -23,7 +23,16 @@ func (t *TaskDB) Update(task *domain.Task) error {
 }
 
 func (t *TaskDB) Delete(id idgen.ID) error {
-	return t.DB.Delete(&domain.Task{}, id).Error
+	var task domain.Task
+	err := t.DB.Where("id = ?", id).First(&task).Error
+	if err != nil {
+		return err
+	}
+	err = t.DB.Delete(&task, id).Error
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (t *TaskDB) FindByID(id idgen.ID) (*domain.Task, error) {
