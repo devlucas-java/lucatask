@@ -33,9 +33,8 @@ func InitConfig() *conf {
 
 	cfg = &conf{}
 
-	viper.SetConfigFile(".env")
 	viper.SetConfigType("env")
-	viper.SetConfigName("default-config")
+	viper.SetConfigName(".env")
 	viper.AddConfigPath(".")
 	viper.AutomaticEnv()
 
