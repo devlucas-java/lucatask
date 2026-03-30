@@ -14,7 +14,7 @@ func NewTaskDB(db *gorm.DB) *TaskDB {
 	return &TaskDB{DB: db}
 }
 
-func (t *TaskDB) Crete(task *domain.Task) error {
+func (t *TaskDB) Create(task *domain.Task) error {
 	return t.DB.Create(task).Error
 }
 
