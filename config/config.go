@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 
+	"github.com/devlucas-java/lucatask/internal/domain"
 	"github.com/go-chi/jwtauth"
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
@@ -61,11 +62,11 @@ func InitDatabase() *gorm.DB {
 		cfg.DB_Port,
 		cfg.DB_Name,
 	)
-
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
+	db.AutoMigrate(&domain.Task{})
 
 	return db
 }
