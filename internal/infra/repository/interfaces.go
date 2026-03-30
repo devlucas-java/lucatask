@@ -12,3 +12,11 @@ type TaskRepository interface {
 	FindByID(id idgen.ID) (*domain.Task, error)
 	FindAll() ([]*domain.Task, error)
 }
+
+type UserRepository interface {
+	Create(user *domain.User) error
+	Update(user *domain.User) error
+	Delete(id idgen.ID) error
+	FindByID(id idgen.ID) (*domain.User, error)
+	FindByEmail(email string) (*domain.User, error)
+}

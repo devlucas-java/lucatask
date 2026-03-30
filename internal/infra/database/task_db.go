@@ -23,25 +23,13 @@ func (t *TaskDB) Update(task *domain.Task) error {
 }
 
 func (t *TaskDB) Delete(id idgen.ID) error {
-	var task domain.Task
-	err := t.DB.Where("id = ?", id).First(&task).Error
-	if err != nil {
-		return err
-	}
-	err = t.DB.Delete(&task, id).Error
-	if err != nil {
-		return err
-	}
-	return nil
+	return t.DB.Where("id = ?", id).Delete(&domain.Task{}).Error
 }
 
 func (t *TaskDB) FindByID(id idgen.ID) (*domain.Task, error) {
 	var task domain.Task
 	err := t.DB.Where("id = ?", id).First(&task).Error
-	if err != nil {
-		return nil, err
-	}
-	return &task, nil
+	return &task, err
 }
 
 func (t *TaskDB) FindAll() ([]*domain.Task, error) {
