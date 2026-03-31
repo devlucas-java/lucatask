@@ -1,6 +1,8 @@
 package usecase
 
 import (
+	"errors"
+
 	"github.com/devlucas-java/lucatask/internal/delivery/dto"
 	"github.com/devlucas-java/lucatask/internal/domain"
 	"github.com/devlucas-java/lucatask/internal/infra/repository"
@@ -40,7 +42,7 @@ func (a *AuthUseCase) Register(dtoRequest *dto.RegisterDTO) (*dto.AuthDTO, error
 
 	userExisting, err := a.UserRepository.FindByEmail(dtoRequest.Email)
 	if err == nil && userExisting != nil {
-		return nil, err
+		return nil, errors.New("dupicate email")
 	}
 	user := domain.NewUser(dtoRequest.Name, dtoRequest.Email, dtoRequest.Password)
 	err = a.UserRepository.Create(user)

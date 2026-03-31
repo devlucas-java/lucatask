@@ -10,7 +10,7 @@ import (
 type User struct {
 	ID        idgen.ID
 	Name      string
-	Email     string
+	Email     string `gorm:"uniqueIndex"`
 	Password  string
 	CreatedAt time.Time
 }

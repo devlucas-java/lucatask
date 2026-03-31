@@ -20,11 +20,11 @@ func (u *UserDB) Create(user *domain.User) error {
 }
 
 func (u *UserDB) Update(user *domain.User) error {
-	return u.DB.Save(user).Error
+	return u.DB.Model(&domain.User{}).Where("id = ?", user.ID).Updates(&user).Error
 }
 
 func (u *UserDB) Delete(id idgen.ID) error {
-	return u.DB.Where("id = ?", id).Delete(&domain.User{}).Error
+	return u.DB.Delete(&domain.User{}, "id = ?", id).Error
 }
 
 func (u *UserDB) FindByID(id idgen.ID) (*domain.User, error) {

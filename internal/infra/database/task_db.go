@@ -20,17 +20,20 @@ func (t *TaskDB) Create(task *domain.Task) error {
 }
 
 func (t *TaskDB) Update(task *domain.Task) error {
-	return t.DB.Save(task).Error
+	return t.DB.Model(&domain.Task{}).Where("id = ?", task.ID).Updates(&task).Error
 }
 
 func (t *TaskDB) Delete(id idgen.ID) error {
-	return t.DB.Where("id = ?", id).Delete(&domain.Task{}).Error
+	return t.DB.Delete(&domain.Task{}, "id = ?", id).Error
 }
 
 func (t *TaskDB) FindByID(id idgen.ID) (*domain.Task, error) {
 	var task domain.Task
 	err := t.DB.Where("id = ?", id).First(&task).Error
-	return &task, err
+	if err != nil {
+		return nil, err
+	}
+	return &task, nil
 }
 
 func (t *TaskDB) FindAll() ([]*domain.Task, error) {
