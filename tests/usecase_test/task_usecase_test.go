@@ -1,4 +1,4 @@
-package usecase
+package usecase_test
 
 import (
 	"testing"
@@ -42,8 +42,7 @@ func TestUpdateUser(t *testing.T) {
 	assert.NotNil(t, userFound)
 	assert.Equal(t, userFound.ID, user.ID)
 	assert.NotEqual(t, userFound.Name, dto.Name)
-	assert.Equal(t, "new email", dto.Email)
-
+	assert.Equal(t, "new email", userFound.Email)
 }
 
 func TestDeleteTask(t *testing.T) {
