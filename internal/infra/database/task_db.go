@@ -2,6 +2,7 @@ package database
 
 import (
 	"github.com/devlucas-java/lucatask/internal/domain"
+	"github.com/devlucas-java/lucatask/internal/infra/repository"
 	"github.com/devlucas-java/lucatask/pkg/idgen"
 	"gorm.io/gorm"
 )
@@ -10,7 +11,7 @@ type TaskDB struct {
 	DB *gorm.DB
 }
 
-func NewTaskDB(db *gorm.DB) *TaskDB {
+func NewTaskDB(db *gorm.DB) repository.TaskRepository {
 	return &TaskDB{DB: db}
 }
 

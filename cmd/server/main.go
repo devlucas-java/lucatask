@@ -21,6 +21,12 @@ func main() {
 	taskRouter := module.NewTaskModule(db)
 	taskRouter.Register(r)
 
+	userRouter := module.NewUserModule(db)
+	userRouter.Route(r)
+
+	authRouter := module.NewAuthModule(db)
+	authRouter.Register(r)
+
 	err := http.ListenAndServe(":"+conf.Port, r)
 	if err != nil {
 		panic(err)

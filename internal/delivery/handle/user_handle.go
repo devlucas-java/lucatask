@@ -13,8 +13,8 @@ type UserHandle struct {
 	UserUseCase usecase.UserUseCase
 }
 
-func NewUserHandle(userUseCase usecase.UserUseCase) *UserHandle {
-	return &UserHandle{
+func NewUserHandle(userUseCase usecase.UserUseCase) UserHandle {
+	return UserHandle{
 		UserUseCase: userUseCase,
 	}
 }

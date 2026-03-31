@@ -65,7 +65,7 @@ func InitDatabase() *gorm.DB {
 	if err != nil {
 		panic(err)
 	}
-	db.AutoMigrate(&domain.Task{})
+	db.AutoMigrate(&domain.Task{}, &domain.User{})
 
 	return db
 }
