@@ -18,48 +18,17 @@ func NewUserUseCase(u repository.UserRepository) *UserUseCase {
 	}
 }
 
-func (u *UserUseCase) CreateUser(name, email, password string) error {
-	return u.UserRepository.Create(domain.NewUser(name, email, password))
-}
-
-func (u *UserUseCase) GetUserByEmail(email string) (*dto.UserDTO, error) {
-	user, err := u.UserRepository.FindByEmail(email)
-	if err != nil {
-		return nil, err
-	}
-	dto := &dto.UserDTO{
-		ID:    user.ID.String(),
-		Name:  user.Name,
-		Email: user.Email,
-	}
-	return dto, nil
-}
-
-func (u *UserUseCase) GetUserByID(idRequest string) (*dto.UserDTO, error) {
-	id, err := idgen.ParseID(idRequest)
-	user, err := u.UserRepository.FindByID(id)
-	if err != nil {
-		return nil, err
-	}
-	dto := &dto.UserDTO{
-		ID:    user.ID.String(),
-		Name:  user.Name,
-		Email: user.Email,
-	}
-	return dto, nil
-}
-
-func (u *UserUseCase) UpdateUser(idRequest string, dto *dto.UserResquest) error {
+func (u *UserUseCase) UpdateUser(idRequest string, dto *dto.UserUpdateDTO) error {
 	id, err := idgen.ParseID(idRequest)
 	if err != nil {
 		return err
 	}
 	var user *domain.User
 	userFound, err := u.UserRepository.FindByID(id)
-	if err != nil {
+	if err != nil || userFound == nil {
 		return err
 	}
-	user.ID = userFound.ID
+	user.ID = id
 	user.Name = dto.Name
 	user.Email = dto.Email
 

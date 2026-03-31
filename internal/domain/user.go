@@ -29,6 +29,6 @@ func NewUser(name, email, password string) *User {
 	}
 }
 
-func (u *User) validatePassword(password string) bool {
+func (u *User) ValidatePassword(password string) bool {
 	return bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password)) == nil
 }
