@@ -20,7 +20,7 @@ func TestLogin(t *testing.T) {
 	db.AutoMigrate(&domain.User{})
 
 	repo := database.NewUserDB(db)
-	usecase := usecase.NewAuthUseCase(repo)
+	usecase := usecase.NewAuthUseCase(repo, nil)
 
 	hash, err := bcrypt.GenerateFromPassword([]byte("password"), bcrypt.DefaultCost)
 	assert.NoError(t, err)
@@ -47,7 +47,7 @@ func TestLoginInvalidCredentials(t *testing.T) {
 	db.AutoMigrate(&domain.User{})
 
 	repo := database.NewUserDB(db)
-	usecase := usecase.NewAuthUseCase(repo)
+	usecase := usecase.NewAuthUseCase(repo, nil)
 
 	_, err = usecase.Login("nonexistent", "password")
 	assert.Error(t, err)
@@ -60,7 +60,7 @@ func TestRegisterSuccessfully(t *testing.T) {
 	db.AutoMigrate(&domain.User{})
 
 	repo := database.NewUserDB(db)
-	usecase := usecase.NewAuthUseCase(repo)
+	usecase := usecase.NewAuthUseCase(repo, nil)
 	dtoRegister := dto.RegisterDTO{
 		Name:     "name",
 		Email:    "email",
@@ -82,7 +82,7 @@ func TestRegisterDuplicateEmail(t *testing.T) {
 	db.AutoMigrate(&domain.User{})
 
 	repo := database.NewUserDB(db)
-	usecase := usecase.NewAuthUseCase(repo)
+	usecase := usecase.NewAuthUseCase(repo, nil)
 
 	dtoRegister := dto.RegisterDTO{
 		Name:     "name",

@@ -8,9 +8,10 @@ import (
 )
 
 type User struct {
-	ID        idgen.ID
+	ID        idgen.ID `gorm:"primary_key"`
 	Name      string
-	Email     string `gorm:"uniqueIndex"`
+	Email     string `gorm:"unique"`
+	Role      string
 	Password  string
 	CreatedAt time.Time
 }
@@ -24,6 +25,7 @@ func NewUser(name, email, password string) *User {
 		ID:        idgen.NewID(),
 		Name:      name,
 		Email:     email,
+		Role:      "USER",
 		Password:  string(hash),
 		CreatedAt: time.Now(),
 	}

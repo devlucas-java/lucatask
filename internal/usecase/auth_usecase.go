@@ -8,30 +8,40 @@ import (
 	"github.com/devlucas-java/lucatask/internal/infra/repository"
 )
 
-type AuthUseCase struct {
-	UserRepository repository.UserRepository
+type jwtService interface {
+	GenerateToken(user *domain.User) (string, error)
 }
 
-func NewAuthUseCase(u repository.UserRepository) AuthUseCase {
+type AuthUseCase struct {
+	UserRepository repository.UserRepository
+	JwtService     jwtService
+}
+
+func NewAuthUseCase(u repository.UserRepository, j jwtService) AuthUseCase {
 	return AuthUseCase{
 		UserRepository: u,
+		JwtService:     j,
 	}
 }
 
 func (a *AuthUseCase) Login(email, password string) (*dto.AuthDTO, error) {
+
 	user, err := a.UserRepository.FindByEmail(email)
 	if err != nil {
 		return nil, err
 	}
 	if !user.ValidatePassword(password) {
-		return nil, err
+		return nil, errors.New("Invalid credentials")
 	}
 	userDTO := dto.UserDTO{
 		ID:    user.ID.String(),
 		Name:  user.Name,
 		Email: user.Email,
 	}
-	jwt := "token"
+	jwt, err := a.JwtService.GenerateToken(user)
+	if err != nil {
+		return nil, err
+	}
 	return &dto.AuthDTO{
 		Token: jwt,
 		User:  userDTO,
@@ -54,7 +64,10 @@ func (a *AuthUseCase) Register(dtoRequest *dto.RegisterDTO) (*dto.AuthDTO, error
 		Name:  user.Name,
 		Email: user.Email,
 	}
-	jwt := "token"
+	jwt, err := a.JwtService.GenerateToken(user)
+	if err != nil {
+		return nil, err
+	}
 	return &dto.AuthDTO{
 		Token: jwt,
 		User:  userDTO,

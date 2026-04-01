@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/devlucas-java/lucatask/internal/domain"
-	"github.com/go-chi/jwtauth"
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -20,7 +19,6 @@ type conf struct {
 	DB_Driver      string `mapstructure:"DB_DRIVER"`
 	JWT_Secret     string `mapstructure:"JWT_SECRET"`
 	JWT_Expires_In int    `mapstructure:"JWT_EXPIRES_IN"`
-	TokenAuth      *jwtauth.JWTAuth
 }
 
 var cfg *conf
@@ -46,8 +44,6 @@ func InitConfig() *conf {
 	if err != nil {
 		panic(err)
 	}
-
-	cfg.TokenAuth = jwtauth.New("HS256", []byte(cfg.JWT_Secret), nil)
 
 	return cfg
 }
