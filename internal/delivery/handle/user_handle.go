@@ -20,6 +20,18 @@ func NewUserHandle(userUseCase usecase.UserUseCase) UserHandle {
 	}
 }
 
+// UpdateMe godoc
+// @Summary Update current user
+// @Description Update authenticated user profile
+// @Tags users
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param request body dto.UserUpdateDTO true "User payload"
+// @Success 204
+// @Failure 400 {string} string "invalid request"
+// @Failure 500 {string} string "failed to update user"
+// @Router /user/me [put]
 func (h *UserHandle) UpdateMe(w http.ResponseWriter, r *http.Request) {
 	var dto dto.UserUpdateDTO
 	err := json.NewDecoder(r.Body).Decode(&dto)
@@ -42,6 +54,15 @@ func (h *UserHandle) UpdateMe(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNoContent)
 }
 
+// DeleteMe godoc
+// @Summary Delete current user
+// @Description Delete authenticated user account
+// @Tags users
+// @Produce json
+// @Security BearerAuth
+// @Success 204
+// @Failure 500 {string} string "failed to delete user"
+// @Router /user/me [delete]
 func (h *UserHandle) DeleteMe(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context().Value(middleware.AuthKey).(middleware.AuthContext)
 	err := h.UserUseCase.DeleteUser(ctx.UserID)
@@ -52,6 +73,15 @@ func (h *UserHandle) DeleteMe(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNoContent)
 }
 
+// GetMe godoc
+// @Summary Get current user
+// @Description Returns authenticated user
+// @Tags users
+// @Produce json
+// @Security BearerAuth
+// @Success 200 {object} dto.UserDTO
+// @Failure 500 {string} string "failed to get user"
+// @Router /user/me [get]
 func (h *UserHandle) GetMe(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context().Value(middleware.AuthKey).(middleware.AuthContext)
 	dto, err := h.UserUseCase.GetUser(ctx.UserID)

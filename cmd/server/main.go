@@ -1,13 +1,30 @@
+// @title LucaTask API
+// @version 1.0
+// @description Task management API with JWT authentication
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name Lucas Dev
+// @contact.email lucas@example.com
+
+// @license.name MIT
+// @host localhost:8080
+// @BasePath /api
+
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
 package main
 
 import (
 	"net/http"
 
 	"github.com/devlucas-java/lucatask/config"
+	_ "github.com/devlucas-java/lucatask/docs"
 	"github.com/devlucas-java/lucatask/internal/infra/jwt"
 	"github.com/devlucas-java/lucatask/internal/module"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 func main() {
@@ -18,6 +35,7 @@ func main() {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
+	r.Get("/swagger/*", httpSwagger.WrapHandler)
 
 	jwtService := jwt.NewJwtService(conf.JWT_Secret)
 

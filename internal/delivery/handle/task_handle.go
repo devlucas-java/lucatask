@@ -21,6 +21,17 @@ func NewTaskHandle(t usecase.TaskUseCase) *TaskHandle {
 	}
 }
 
+// CreateTask godoc
+// @Summary Create task
+// @Description Create a new task
+// @Tags tasks
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param request body dto.TaskDTO true "Task payload"
+// @Success 201
+// @Failure 400 {string} string "invalid request"
+// @Router /tasks/ [post]
 func (th *TaskHandle) CreateTask(w http.ResponseWriter, r *http.Request) {
 	var dto dto.TaskDTO
 	err := json.NewDecoder(r.Body).Decode(&dto)
@@ -37,6 +48,19 @@ func (th *TaskHandle) CreateTask(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+// UpdateTask godoc
+// @Summary Update task
+// @Description Update task name and description
+// @Tags tasks
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param id path string true "Task ID"
+// @Param request body dto.TaskDTO true "Task payload"
+// @Success 204
+// @Failure 400 {string} string "invalid request"
+// @Failure 500 {string} string "error updating task"
+// @Router /tasks/{id} [put]
 func (th *TaskHandle) UpdateTask(w http.ResponseWriter, r *http.Request) {
 	var dto dto.TaskDTO
 	err := json.NewDecoder(r.Body).Decode(&dto)
@@ -60,6 +84,19 @@ func (th *TaskHandle) UpdateTask(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+// CompletedTask godoc
+// @Summary Complete task
+// @Description Mark task as completed or incomplete
+// @Tags tasks
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param id path string true "Task ID"
+// @Param request body dto.TaskCompletedDTO true "Completed payload"
+// @Success 204
+// @Failure 400 {string} string "invalid request"
+// @Failure 500 {string} string "error updating task"
+// @Router /tasks/{id}/complete [patch]
 func (th *TaskHandle) CompletedTask(w http.ResponseWriter, r *http.Request) {
 	var dto dto.TaskCompletedDTO
 	err := json.NewDecoder(r.Body).Decode(&dto)
@@ -83,6 +120,16 @@ func (th *TaskHandle) CompletedTask(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+// DeleteTask godoc
+// @Summary Delete task
+// @Description Delete a task by ID
+// @Tags tasks
+// @Produce json
+// @Security BearerAuth
+// @Param id path string true "Task ID"
+// @Success 204
+// @Failure 500 {string} string "error deleting task"
+// @Router /tasks/{id} [delete]
 func (th *TaskHandle) DeleteTask(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	err := th.TaskUseCase.DeleteTask(id)
@@ -96,6 +143,16 @@ func (th *TaskHandle) DeleteTask(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+// GetTask godoc
+// @Summary Get task by ID
+// @Description Retrieve a single task
+// @Tags tasks
+// @Produce json
+// @Security BearerAuth
+// @Param id path string true "Task ID"
+// @Success 200 {object} dto.TaskResponseDTO
+// @Failure 500 {string} string "error getting task"
+// @Router /tasks/{id} [get]
 func (th *TaskHandle) GetTask(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	task, err := th.TaskUseCase.GetTask(id)
@@ -111,6 +168,15 @@ func (th *TaskHandle) GetTask(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+// GetAllTasks godoc
+// @Summary List all tasks
+// @Description Get all tasks
+// @Tags tasks
+// @Produce json
+// @Security BearerAuth
+// @Success 200 {array} dto.TaskResponseDTO
+// @Failure 500 {string} string "error getting tasks"
+// @Router /tasks/ [get]
 func (th *TaskHandle) GetAllTasks(w http.ResponseWriter, r *http.Request) {
 
 	tasks, err := th.TaskUseCase.ListTasks()

@@ -18,6 +18,17 @@ func NewAuthHandle(authUseCase usecase.AuthUseCase) AuthHandle {
 	}
 }
 
+// Login godoc
+// @Summary Login user
+// @Description Authenticate user and return JWT token
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param request body dto.LoginDTO true "Login payload"
+// @Success 200 {object} dto.AuthDTO
+// @Failure 400 {string} string "invalid request"
+// @Failure 401 {string} string "invalid credentials"
+// @Router /auth/login [post]
 func (h *AuthHandle) Login(w http.ResponseWriter, r *http.Request) {
 
 	var dto dto.LoginDTO
@@ -36,6 +47,17 @@ func (h *AuthHandle) Login(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(auth)
 }
 
+// Register godoc
+// @Summary Register user
+// @Description Create a new account
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param request body dto.RegisterDTO true "Register payload"
+// @Success 200 {object} dto.AuthDTO
+// @Failure 400 {string} string "invalid request"
+// @Failure 500 {string} string "failed to register"
+// @Router /auth/register [post]
 func (h *AuthHandle) Register(w http.ResponseWriter, r *http.Request) {
 
 	var dto dto.RegisterDTO
