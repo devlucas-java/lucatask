@@ -2,7 +2,7 @@ package route
 
 import (
 	"github.com/devlucas-java/lucatask/internal/delivery/handle"
-	"github.com/devlucas-java/lucatask/internal/delivery/midleware"
+	"github.com/devlucas-java/lucatask/internal/delivery/middleware"
 	"github.com/devlucas-java/lucatask/internal/infra/jwt"
 	"github.com/go-chi/chi"
 )
@@ -17,10 +17,10 @@ func NewTaskRoute(taskHandle *handle.TaskHandle) *TaskRoute {
 	}
 }
 
-func (tr *TaskRoute) Register(r chi.Router, jwtService *jwt.JwtService) {
-	r.Use(midleware.AuthMiddleware(jwtService))
-	r.Route("/tasks", func(r chi.Router) {
+func (tr *TaskRoute) Register(c chi.Router, jwtService *jwt.JwtService) {
 
+	c.Route("/tasks", func(r chi.Router) {
+		r.Use(middleware.AuthMiddleware(jwtService))
 		r.Post("/", tr.TaskHandle.CreateTask)
 		r.Get("/", tr.TaskHandle.GetAllTasks)
 

@@ -1,7 +1,6 @@
 package module
 
 import (
-	"github.com/devlucas-java/lucatask/config"
 	"github.com/devlucas-java/lucatask/internal/delivery/handle"
 	"github.com/devlucas-java/lucatask/internal/delivery/route"
 	"github.com/devlucas-java/lucatask/internal/infra/database"
@@ -10,12 +9,9 @@ import (
 	"gorm.io/gorm"
 )
 
-func NewAuthModule(db *gorm.DB) *route.AuthRoute {
-
-	cfg := config.GetConfig()
+func NewAuthModule(db *gorm.DB, jwtService *jwt.JwtService) *route.AuthRoute {
 
 	userRepo := database.NewUserDB(db)
-	jwtService := jwt.NewJwtService(cfg.JWT_Secret)
 	userUseCase := usecase.NewAuthUseCase(userRepo, jwtService)
 	userHandler := handle.NewAuthHandle(userUseCase)
 

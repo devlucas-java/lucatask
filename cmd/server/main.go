@@ -25,9 +25,9 @@ func main() {
 	taskRouter.Register(r, jwtService)
 
 	userRouter := module.NewUserModule(db)
-	userRouter.Route(r)
+	userRouter.Route(r, jwtService)
 
-	authRouter := module.NewAuthModule(db)
+	authRouter := module.NewAuthModule(db, jwtService)
 	authRouter.Register(r)
 
 	err := http.ListenAndServe(":"+conf.Port, r)
