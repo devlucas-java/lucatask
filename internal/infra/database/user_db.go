@@ -20,7 +20,7 @@ func (u *UserDB) Create(user *domain.User) error {
 }
 
 func (u *UserDB) Update(user *domain.User) error {
-	return u.DB.Model(&domain.User{}).Where("id = ?", user.ID).Updates(&user).Error
+	return u.DB.Model(&domain.User{}).Where("id = ?", user.ID).Updates(user).Error
 }
 
 func (u *UserDB) Delete(id idgen.ID) error {

@@ -23,5 +23,6 @@ func (ur *UserRoute) Route(c chi.Router, jwtService *jwt.JwtService) {
 		r.Use(middleware.AuthMiddleware(jwtService))
 		r.Delete("/me", ur.UserHandler.DeleteMe)
 		r.Put("/me", ur.UserHandler.UpdateMe)
+		r.Get("/me", ur.UserHandler.GetMe)
 	})
 }
