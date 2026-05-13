@@ -1,6 +1,6 @@
 # LucaTask API
 
-**LucaTask** is a task management backend built with **Go**, following **Clean Architecture** principles for scalability, maintainability, and testability.
+**LucaTask** is a task management backend built with **Go**, following **Hexagonal Architecture** principles for scalability, maintainability, and testability.
 
 The project uses **Chi** for routing, **GORM** for database access, **JWT authentication middleware**, **DTO validation**, and **automated tests**.
 
@@ -14,7 +14,7 @@ LucaTask is a modern REST API for task management designed with a professional b
 
 ### ✨ Features
 
-* ✅ Clean Architecture
+* ✅ Hexagonal Architecture
 * ✅ RESTful API with **Chi Router**
 * ✅ Database integration with **GORM**
 * ✅ JWT authentication middleware
@@ -29,7 +29,7 @@ LucaTask is a modern REST API for task management designed with a professional b
 
 ## 🏗️ Architecture
 
-The project follows **Clean Architecture**:
+The project follows **Hegagonal Architecture**:
 
 ```text
 cmd/
@@ -89,7 +89,7 @@ DTO validation was added to improve request safety and avoid invalid payloads.
 * Password rules
 * Update payload validation
 
-This helps keep the **use case layer clean** and prevents invalid data from reaching the business logic.
+This helps keep the **use case layer Hexagonal** and prevents invalid data from reaching the business logic.
 
 ---
 
@@ -162,7 +162,7 @@ Está diseñada para ser **escalable, mantenible y segura**, utilizando **Chi**,
 
 ## 🏗️ Arquitectura
 
-El proyecto sigue **Clean Architecture**:
+El proyecto sigue **Hexagonal Architecture**:
 
 ```text
 cmd/
